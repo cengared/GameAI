@@ -142,7 +142,7 @@ public class AStarSearch : FrontierSearch
 				if (!(cost_so_far.ContainsKey(next)) || new_cost < cost_so_far[next]) 
 				{
 					cost_so_far[next] = new_cost;
-					log ("Adding to " + next + " to frontier");
+					log ("Adding to " + next + " to frontier, with a cost of " + new_cost);
 					frontier.Enqueue (next);
 					came_from [next] = current;
 					

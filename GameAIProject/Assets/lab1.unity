@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: 0
-  target: 6
+  target: 8
 --- !u!4 &551674910
 Transform:
   m_ObjectHideFlags: 0

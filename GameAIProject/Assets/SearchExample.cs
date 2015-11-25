@@ -8,7 +8,7 @@ public enum Node { A, B, C, D, E, F, G, H, I }
 public class SearchExample : MonoBehaviour {
 
 	public int source = (int) Node.A;
-	public int target = (int) Node.G;
+	public int target = (int) Node.I;
 	protected IntGraph graph;
 	
 	// Use this for initialization
@@ -23,7 +23,7 @@ public class SearchExample : MonoBehaviour {
 		aStar.setGraph (graph);
 
 		//List<int> path = bfs.findPath ((int) Node.A, (int) Node.G, true);
-		List<int> path = aStar.findPath ((int) Node.A, (int) Node.G, true);
+		List<int> path = aStar.findPath (source, target, true);
 
 		if (path != null) {
 			String p = "";
