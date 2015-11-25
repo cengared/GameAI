@@ -46,7 +46,7 @@ class GraphSearch : IGraphSearch
 
 	static void Main(string[] args)
 	{
-		Graph g = new Graph ();
+		//Graph g = new Graph ();
 	}
 
 }
