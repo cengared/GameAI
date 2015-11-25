@@ -44,6 +44,9 @@ class GraphSearch : IGraphSearch
 		return visited;
 	}
 
-
+	static void Main(string[] args)
+	{
+		Graph g = new Graph ();
+	}
 
 }
