@@ -9,11 +9,11 @@ public class SearchExample : MonoBehaviour {
 
 	public int source = (int) Node.A;
 	public int target = (int) Node.I;
-	protected IntGraph graph;
+	protected IGraph graph;
 	
 	// Use this for initialization
 	void Start () {
-		graph = new AdjacencyGraph ();
+		graph = new AGraph();
 
 		buildExample ();
 
@@ -76,8 +76,9 @@ public class SearchExample : MonoBehaviour {
 
 	// Add undirected edge with unit cost
 	public void addEdge(Node a, Node b) {
-		graph.addEdge ((int) a, (int) b, 1);
-		graph.addEdge ((int) b, (int) a, 1);
+		float c = 1f;
+		graph.addEdge ((int) a, (int) b, c);
+		graph.addEdge ((int) b, (int) a, c);
 	}
 
 }

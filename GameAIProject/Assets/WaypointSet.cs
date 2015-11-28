@@ -8,8 +8,8 @@ public class WaypointSet : MonoBehaviour {
 
 	protected List<GameObject> waypointObjects;
 	protected Dictionary<int, Vector3> waypointPositions;
-	protected IntGraph graph;
-	protected int cost = 1; // unit cost
+	protected IGraph graph;
+	protected float cost = 1; // unit cost
 
 	// Use this for initialization
 	void Start () {
@@ -32,7 +32,7 @@ public class WaypointSet : MonoBehaviour {
 		Debug.Log ("All waypoint positions mapped");
 
 		// graph creation
-		graph = new AdjacencyGraph (); 
+		graph = new AGraph (); 
 
 		// create nodes to represent waypoints
 		Array nodes = Enum.GetValues (typeof(Node));
@@ -41,9 +41,12 @@ public class WaypointSet : MonoBehaviour {
 
 		// set the edges for each node/waypoint as specified by the adjacents variable in the Waypoint object
 		foreach (GameObject waypoint in waypointObjects) {
+			int a = waypoint.GetComponent<Waypoint>().nodeID;
+
 			List<int> adjs = waypoint.GetComponent<Waypoint>().adjacents;
 			foreach(int b in adjs){
-				int a = waypoint.GetComponent<Waypoint>().nodeID;
+				cost = Vector3.Distance(waypointPositions[a], waypointPositions[b]);
+				//Debug.Log ("Distance between waypoints " + a + " and " + b + " is: " + cost);
 				graph.addEdge(a, b, cost);
 			}
 
