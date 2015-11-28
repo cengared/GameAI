@@ -37,8 +37,9 @@ public class BFS : FrontierSearch {
 	
 	public override List<int> findPath(int start, int goal, bool t) {
 		trace = t;
-		
-		log ("BFS: looking for path from " + start + " to " + goal);
+		char s = (char)(start + 65);
+		char g = (char)(goal + 65);
+		log ("BFS: looking for path from " + s + " to " + g);
 		
 		frontier = new Queue<int>();
 		frontier.Enqueue(start);
@@ -97,11 +98,15 @@ public class BFS : FrontierSearch {
 	}
 }
 
+// Implements PriorityQueue class created by Morten Nobel-Jørgensen
+// from: https://github.com/mortennobel/UnityUtils
 public class AStarSearch : FrontierSearch
 {
-	protected Queue<int> frontier;
+	// PriorityQueue<priority, value>
+	protected PriorityQueue<float, int> frontier;
 	protected Dictionary<int, int> came_from;
 	protected Dictionary<int, float> cost_so_far;
+	protected float heuristic = 1f;
 	
 	public AStarSearch()
 	{
@@ -110,10 +115,12 @@ public class AStarSearch : FrontierSearch
 	public override List<int> findPath(int start, int goal, bool t)
 	{
 		trace = t;
-		log ("A* Search: looking for path from " + start + " to " + goal);
+		char s = (char)(start + 65);
+		char g = (char)(goal + 65);
+		log ("A* Search: looking for path from " + s + " to " + g);
 		
-		frontier = new Queue<int>();
-		frontier.Enqueue(start);
+		frontier = new PriorityQueue<float, int>();
+		frontier.Enqueue(start, 0);
 		came_from = new Dictionary<int, int>();
 		came_from[start] = NONE;
 		cost_so_far = new Dictionary<int, float>();
@@ -122,7 +129,7 @@ public class AStarSearch : FrontierSearch
 		bool done = false;
 		
 		// Main search loop
-		while (frontier.Count != 0) 
+		while (!frontier.IsEmpty) 
 		{
 			int current = frontier.Dequeue ();
 			log ("Current node is " + current);
@@ -143,8 +150,10 @@ public class AStarSearch : FrontierSearch
 				if (!(cost_so_far.ContainsKey(next)) || new_cost < cost_so_far[next]) 
 				{
 					cost_so_far[next] = new_cost;
-					log ("Adding to " + next + " to frontier, with a cost of " + new_cost);
-					frontier.Enqueue (next);
+					float priority = new_cost + heuristic;
+					//log ("Heuristic of " + next + " is: " + heuristic);
+					//log ("Adding to " + next + " to frontier, with a cost of " + new_cost);
+					frontier.Enqueue (next, priority);
 					came_from [next] = current;
 					
 				} 
@@ -179,6 +188,11 @@ public class AStarSearch : FrontierSearch
 		path.Reverse();
 		
 		return path;
+	}
+
+	public void setHeuristic(Vector2i x, Vector2i y)
+	{
+		heuristic = (x - y).magnitude;
 	}
 }
 
