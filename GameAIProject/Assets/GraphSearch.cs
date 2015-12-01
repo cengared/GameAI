@@ -37,9 +37,7 @@ public class BFS : FrontierSearch {
 	
 	public override List<int> findPath(int start, int goal, bool t) {
 		trace = t;
-		char s = (char)(start + 65);
-		char g = (char)(goal + 65);
-		log ("BFS: looking for path from " + s + " to " + g);
+		log ("BFS: looking for path from " + start + " to " + goal);
 		
 		frontier = new Queue<int>();
 		frontier.Enqueue(start);
@@ -58,7 +56,7 @@ public class BFS : FrontierSearch {
 				log ("Found goal node " + goal);
 				break;
 			}
-			
+
 			List<int> neighbours = graph.neighbours (current);
 			log (neighbours.Count + " neighbours found");
 			
@@ -115,9 +113,7 @@ public class AStarSearch : FrontierSearch
 	public override List<int> findPath(int start, int goal, bool t)
 	{
 		trace = t;
-		char s = (char)(start + 65);
-		char g = (char)(goal + 65);
-		log ("A* Search: looking for path from " + s + " to " + g);
+		log ("A* Search: looking for path from " + start + " to " + goal);
 		
 		frontier = new PriorityQueue<float, int>();
 		frontier.Enqueue(start, 0);
@@ -140,7 +136,7 @@ public class AStarSearch : FrontierSearch
 				log ("Found goal node " + goal);
 				break;
 			}
-			
+
 			List<int> neighbours = graph.neighbours (current);
 			log (neighbours.Count + " neighbours found");
 			

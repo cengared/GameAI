@@ -42,7 +42,7 @@ public class SearchExample : MonoBehaviour {
 	void Update () {
 		
 	}
-
+	
 	// Build the example from the lecture slides
 	public void buildExample() {
 

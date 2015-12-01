@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 
-//public enum Node { A, B, C, D, E, F, G, H}
-
 public class WaypointSet : MonoBehaviour {
 
 	protected List<GameObject> waypointObjects;
@@ -17,10 +15,12 @@ public class WaypointSet : MonoBehaviour {
 		waypointObjects = new List<GameObject>();
 		waypointPositions = new Dictionary<int, Vector3>();
 		foreach (Transform t in transform) {
-			Debug.Log("Found " + t.name);
+			//Debug.Log("Found " + t.name);
 			waypointObjects.Add (t.gameObject);
 		}
 		Debug.Log ("Waypoint set built");
+		// graph creation
+		graph = new AGraph (); 
 
 		// get position data for each waypoint
 		foreach(GameObject w in waypointObjects){
@@ -28,30 +28,24 @@ public class WaypointSet : MonoBehaviour {
 			Vector3 pos = w.GetComponent<Transform>().position;
 			waypointPositions.Add(node, pos);
 			Debug.Log ("Waypoint " + node + " position found");
+			graph.addNode(node);
 		}
 		Debug.Log ("All waypoint positions mapped");
-
-		// graph creation
-		graph = new AGraph (); 
-
-		// create nodes to represent waypoints
-		Array nodes = Enum.GetValues (typeof(Node));
-		foreach (Node n in nodes)
-			graph.addNode ((int) n);
 
 		// set the edges for each node/waypoint as specified by the adjacents variable in the Waypoint object
 		foreach (GameObject waypoint in waypointObjects) {
 			int a = waypoint.GetComponent<Waypoint>().nodeID;
-
+			// uses the set adjacents for each waypoint to get the adjacents for the nodes in the graph
 			List<int> adjs = waypoint.GetComponent<Waypoint>().adjacents;
 			foreach(int b in adjs){
+				// sets the cost to be the distance between waypoints
 				cost = Vector3.Distance(waypointPositions[a], waypointPositions[b]);
 				//Debug.Log ("Distance between waypoints " + a + " and " + b + " is: " + cost);
-				graph.addEdge(a, b, cost);
+				graph.addEdge(a, b, cost); // creates an edge of the graph for waypoints a & b with calculated cost
 			}
 
 		}
-
+		Debug.Log ("Waypoint graph created");
 
 	}
 
@@ -65,5 +59,13 @@ public class WaypointSet : MonoBehaviour {
 		    return waypointPositions[n];
 		else
 		    return new Vector3();
+	}
+
+	public int getCount(){
+		return waypointObjects.Count;
+	}
+
+	public IGraph getGraph(){
+		return graph;
 	}
 }
