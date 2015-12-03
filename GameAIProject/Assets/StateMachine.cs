@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-/*
+
 public class StateMachine<A> {
 
 	A agent;
@@ -10,7 +10,7 @@ public class StateMachine<A> {
 		agent = a;
 	}
 
-	public void getAgent(){
+	public A getAgent(){
 		return agent;
 	}
 
@@ -23,13 +23,12 @@ public class StateMachine<A> {
 	}
 
 	public void changeState(State<A> next){
-		current.exit (this);
+		current.exit (agent);
 		current = next;
-		current.enter (this);
+		current.enter (agent);
 	}
 
 	public void update(){
 		current.execute (agent, this);
 	}
 }
-*/
