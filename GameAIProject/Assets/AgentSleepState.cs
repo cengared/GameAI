@@ -2,7 +2,7 @@
 using System.Collections;
 
 // the sleep state for the Agent AI state machine
-public class SleepState : State<AgentAI> {
+public class AgentSleepState : State<AgentAI> {
 
 	// sets scanning mode to true when entering state
 	public void enter(AgentAI agent) {
@@ -14,11 +14,11 @@ public class SleepState : State<AgentAI> {
 	// at which point the awake state is started
 	public void execute(AgentAI agent, StateMachine<AgentAI> fsm) {
 		if (agent.count > 5)
-			fsm.changeState (new ChaseState ());
+			fsm.changeState (new AgentChaseState ());
 		if (agent.scanning)
 			agent.scan();
 		if (agent.triggered)
-			fsm.changeState (new AwakeState ());
+			fsm.changeState (new AgentAwakeState ());
 	}
 
 	// when exiting the state scanning mode is stopped by changing the agent's scanning boolean

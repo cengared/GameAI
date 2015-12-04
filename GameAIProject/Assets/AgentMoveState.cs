@@ -2,11 +2,11 @@
 using System.Collections;
 
 // the move state for the Agent AI state machine
-public class MoveState : State<AgentAI> {
+public class AgentMoveState : State<AgentAI> {
 	
 	public void enter(AgentAI agent) {
 		Debug.Log ("Enter MoveState");
-		Debug.Log ("Agent awake count = " + agent.count);
+		Debug.Log ("Agent awoken count = " + agent.count);
 	}
 
 	// during the execution of the move state, the agent checks to see how far away from the player it is
@@ -16,7 +16,7 @@ public class MoveState : State<AgentAI> {
 		GameObject g = GameObject.Find ("Player");
 		float distance = Vector3.Distance (agent.transform.position, g.transform.position);
 		if (distance > 30f)
-			fsm.changeState (new SleepState ());
+			fsm.changeState (new AgentSleepState ());
 	}
 	
 	public void exit(AgentAI agent) {

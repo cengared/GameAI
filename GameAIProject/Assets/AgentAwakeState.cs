@@ -2,7 +2,7 @@
 using System.Collections;
 
 // the awake state for the Agent AI state machine
-public class AwakeState : State<AgentAI> {
+public class AgentAwakeState : State<AgentAI> {
 
 	// upon entering the awake state, a direction to move is worked out
 	public void enter(AgentAI agent) {
@@ -13,7 +13,7 @@ public class AwakeState : State<AgentAI> {
 
 	// this activates the move state
 	public void execute(AgentAI agent, StateMachine<AgentAI> fsm) {
-		fsm.changeState (new MoveState ());
+		fsm.changeState (new AgentMoveState ());
 	}
 
 	// the direction vector is normalised at state exit

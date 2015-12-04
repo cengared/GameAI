@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Wall
   - Agent
+  - Node
+  - Obstacle
+  - Drone
   layers:
   - Default
   - TransparentFX
