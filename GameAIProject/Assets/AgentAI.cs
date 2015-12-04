@@ -16,6 +16,8 @@ public class AgentAI : MonoBehaviour {
 	public int count { get; set; }
 	private float moveSpeed;
 	private float rotateSpeed;
+	private bool goHome;
+	private Vector3 home;
 	
 	public AgentAI() {
 		fsm = new StateMachine<AgentAI> (this);
@@ -24,8 +26,10 @@ public class AgentAI : MonoBehaviour {
 		moveSpeed = 6f;
 		rotateSpeed = 30f;
 		count = 0;
+		goHome = false;
+		home = new Vector3 (0f, 0.75f, 0f); // set vector location for 'home'
 	}
-	
+
 	void Update () {
 		fsm.update ();
 		// if a wall is hit the SleepState is called which goes straight to it's execute method
@@ -39,6 +43,24 @@ public class AgentAI : MonoBehaviour {
 			transform.LookAt (g.transform.position);
 			transform.Translate ((moveSpeed / 2 ) * Vector3.forward * Time.deltaTime);
 		}
+		// checkes if the return key is held down and if so interrupts the state machine and sets goHome to true
+		if (Input.GetKeyDown(KeyCode.Return)) {
+			fsm.interrupt ();
+			goHome = true;
+		}
+		// when the return key is released goHome is set to false and the state machine resumes
+		if (Input.GetKeyUp (KeyCode.Return)) {
+			goHome = false;
+			fsm.resume ();
+		}
+
+		// this is the goHom behaviour which translates the current agent position to the pre-set home position
+		if (goHome) {
+			direction = transform.position - home;
+			transform.Translate (direction.normalized * moveSpeed * Time.deltaTime);
+		}
+
+
 	}
 
 	// the scan function sets the agent to rotate around it's centre
@@ -53,6 +75,8 @@ public class AgentAI : MonoBehaviour {
 	public void move() {
 		transform.Translate (direction * moveSpeed * Time.deltaTime);
 	}
+
+
 
 	// checks for trigger collisions in the game world
 	void OnTriggerEnter(Collider other) {
