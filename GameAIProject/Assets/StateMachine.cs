@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// generic state machine class
 public class StateMachine<A> {
 
 	A agent;
